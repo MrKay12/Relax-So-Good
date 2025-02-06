@@ -28,7 +28,7 @@ This project is a fully functional e-commerce website built as the final project
 ```bash
 cd backend
 pip install -r requirements.txt  # For Python-based backend
-yarn install / npm install         # For Node.js-based backend
+yarn install / npm install         # For js-based backend
 ```
 
 ### Frontend Setup
@@ -41,9 +41,9 @@ yarn install / npm install
 ```bash
 # Start Backend
 cd backend
-python app.py  # Flask
-python manage.py runserver  # Django
-node server.js  # Express
+python app.py  
+python manage.py runserver  
+node server.js  
 
 # Start Frontend
 cd frontend
