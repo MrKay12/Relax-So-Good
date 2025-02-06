@@ -8,6 +8,7 @@ class RSGFacade:
         self.user_repo = InMemoryRepository()
         self.product_repo = InMemoryRepository()
         self.review_repo = InMemoryRepository()
+        self.rating_repo = InMemoryRepository()
 
 #User Facades
     def create_user(self, user_data):
@@ -47,13 +48,6 @@ class RSGFacade:
     def get_all_reviews(self):
         return self.review_repo.get_all()
 
-    def get_reviews_by_place(self, place_id):
-
-        place = self.place_repo.get(place_id)
-        if not place:
-            return None
-        return [review for review in self.review_repo.get_all() if review.place_id == place_id]
-
     def update_review(self, review_id, review_data):
         existing_review = self.review_repo.get(review_id)
         if not existing_review:
@@ -73,3 +67,30 @@ class RSGFacade:
         if review:
             self.review_repo.delete(review_id)
             return {'message': 'Review deleted sucessfully'}
+
+# Product Facades
+    def create_product(self, product_data):
+        product = Product(**product_data)
+        self.product_repo.add(product)
+        return product
+
+    def get_product(self, product_id):
+        return self.product_repo.get(product_id)
+
+    def get_all_products(self):
+        return self.product_repo.get_all()
+
+    def update_product(self, product_id, product_data):
+        product = self.product_repo.get(product_id)
+        if not product:
+            return None
+        for key, value in product_data.items():
+            setattr(product, key, value)
+        self.product_repo.update(product_id, product.__dict__)
+        return product
+
+    def delete_product(self, product_id):
+        product = self.product_repo.get(product_id)
+        if product:
+            self.product_repo.delete(product_id)
+            return {'message': 'Product deleted successfully'}
