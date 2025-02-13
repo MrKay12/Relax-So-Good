@@ -54,3 +54,14 @@ class ProductResource(Resource):
 
         updated_product = facade.update_product(product_id, product_data)
         return {'id': updated_product.id, 'name': updated_product.name, 'description': updated_product.description, 'price': updated_product.price, 'quantity': updated_product.quantity}, 200
+    
+    @api.response(200, 'Product successfully deleted')
+    @api.response(404, 'Product not found')
+    def delete(self, product_id):
+        """Delete a product by ID"""
+        product = facade.get_product(product_id)
+        if not product:
+            return {'error': 'Product not found'}, 404
+        
+        facade.delete_product(product_id)
+        return {'message': 'Product successfully deleted'}, 200
