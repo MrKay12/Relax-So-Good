@@ -63,3 +63,5 @@ yarn start / npm start
 ## 📧 Contact
 For any questions or suggestions, feel free to reach out via [quentin.lepoutre12@gmail.com]().
 
+#### Next step #####
+robot/ai tchat
