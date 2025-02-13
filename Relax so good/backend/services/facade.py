@@ -1,7 +1,7 @@
-from app.persistence.repository import InMemoryRepository
-from app.models.user import User
-from app.models.product import Product
-from app.models.review import Review
+from backend.persistence.repository import InMemoryRepository
+from backend.models.user import User
+from backend.models.product import Product
+from backend.models.review import Review
 
 class RSGFacade:
     def __init__(self):

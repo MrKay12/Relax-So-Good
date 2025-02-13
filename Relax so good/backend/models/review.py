@@ -1,6 +1,6 @@
-from app.models.basemodel import BaseModel
-from app.models.product import Product
-from app.models.user import User
+from backend.models.basemodel import BaseModel
+from backend.models.product import Product
+from backend.models.user import User
 
 class Review(BaseModel):
     def __init__(self, text, rating, user_id, product_id):

@@ -1,5 +1,5 @@
-from app.models.basemodel import BaseModel
-from app.models.user import User
+from backend.models.basemodel import BaseModel
+from backend.models.user import User
 
 
 class Product:

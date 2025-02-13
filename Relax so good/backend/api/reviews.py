@@ -1,6 +1,6 @@
 from flask_restx import Namespace, Resource, fields
-from app.services.facade import RSGFacade
-from app import facade
+from backend.services.facade import RSGFacade
+from backend import facade
 
 api = Namespace('reviews', description='Review operations')
 
