@@ -159,6 +159,43 @@ class Review(BaseModel):
 
 ---
 
+## High-Level Sequence Diagrams
+### Actors & Components:
+
+1. User (Requests / Inputs data)
+2. Front-End (Displays database / backend response + sends requests to backend)
+3. Back-End (Processes User data + Fetches / Stores data from / into the database)
+4. Database (Retrieves requested data + Stores given data)
+
+### [User Login Sequence Diagram](https://github.com/MrKay12/Relax-So-Good/blob/main/Relax%20so%20good/Stage%203/Login%20Sequence.drawio.png)
+
+1. User enters email & password in the login form.
+2. Front-end sends a login request to the back-end.
+3. Back-end validates credentials against the database.
+4. Database returns a success or failure response.
+5. Back-end generates a session/token if login is successful.
+6. Front-end receives the response and grants access if authenticated.
+
+### [Submitting Feedback Sequence Diagram](https://github.com/MrKay12/Relax-So-Good/blob/main/Relax%20so%20good/Stage%203/Submitting%20Feedback.drawio.png)
+
+1. User enters feedback and submits it.
+2. Front-end sends the feedback data to the back-end.
+3. Back-end processes and validates the input.
+4. Back-end stores feedback in the database.
+5. Database confirms data storage.
+6. Back-end returns a success message to the front-end.
+
+### [Retrieving Feedback Sequence Diagram](https://github.com/MrKay12/Relax-So-Good/blob/main/Relax%20so%20good/Stage%203/Retrieve%20Feedback.drawio.png)
+
+1. User requests to view feedback history.
+2. Front-end sends a request to the back-end.
+3. Back-end queries the database for the user’s feedback.
+4. Database returns stored feedback data.
+5. Back-end formats the data and sends it to the front-end.
+6. Front-end displays feedback to the user.
+
+---
+
 ## Software Configuration Management (SCM) & Quality Assurance (QA)
 ### SCM Strategy
 - **Branching:** Feature branches for development, merged into the main branch upon completion.
