@@ -1,15 +1,21 @@
-@import "tailwindcss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@plugin "tailwindcss-animate";
+/* Custom plugin for animations */
+@import "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
-
-@theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Custom variant for dark mode */
+@layer utilities {
+  .dark-mode {
+    color-scheme: dark;
+  }
 }
 
+/* Custom theme variables */
 :root {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -80,7 +86,7 @@
   --sidebar-ring: oklch(0.442 0.017 285.786);
 }
 
-@theme inline {
+.theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -121,9 +127,11 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border: var(--border);
+    outline: calc(var(--ring) / 2);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
