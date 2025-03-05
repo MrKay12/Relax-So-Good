@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+.loginButton {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000; /* Ensure the button is above other content */
+}
+
+.loginButton:hover {
+  background-color: #005bb5;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%; /* Adjust width to leave 5% on each side */
+  max-width: 90%; /* Adjust max-width to control the overall width of the carousel */
+}
+
+.carouselContent {
+  display: flex;
+  transition: transform 0.1s ease-in-out;
+}
+
+.carouselItem {
+  flex: 0 0 auto;
+  width: 40%; /* Adjust width to control the size of each item */
+  padding: 0.5rem; /* Adjust padding to make items closer */
+}
+
+.carouselControls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
