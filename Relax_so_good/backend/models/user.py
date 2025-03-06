@@ -1,13 +1,17 @@
 import re
 from .basemodel import BaseModel
+from flask_login import UserMixin
 
-class User(BaseModel):
-    def __init__(self, first_name, last_name, email, is_admin=False):
+class User(UserMixin):
+    def __init__(self, user_data):
         super().__init__()
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.is_admin = is_admin
+        self.id = str(user_data.get('_id'))
+        self.first_name = user_data.get('first_name')
+        self.last_name = user_data.get('last_name')
+        self.email = user_data.get('email')
+        self.password = user_data.get('password')
+        self.date_of_birth = user_data.get('date_of_birth')
+        self.is_admin = user_data.get('is_admin', False)
         self.validate()
 
     def validate(self):
@@ -18,3 +22,7 @@ class User(BaseModel):
             raise ValueError("Last name is required and must be less than or equal to 50 characters.")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
             raise ValueError("Invalid email format.")
+        if not self.password:
+            raise ValueError("Password is required.")
+        if not self.date_of_birth:
+            raise ValueError("Date of birth is required.")
