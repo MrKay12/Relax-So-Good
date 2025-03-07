@@ -11,8 +11,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 99%;
   padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.headerTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 1rem;
 }
 
 .loginButton {
@@ -22,27 +39,44 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000; /* Ensure the button is above other content */
+}
+
+.cartButton {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 1rem;
 }
 
 .loginButton:hover {
   background-color: #005bb5;
 }
 
-.carousel {
+.cartButton:hover {
+  background-color: #005bb5;
+}
+
+.carouselWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%; /* Adjust width to leave 5% on each side */
-  max-width: 90%; /* Adjust max-width to control the overall width of the carousel */
+  width: 100%; /* Adjust width to leave 5% on each side */
+  max-width: 100%; /* Adjust max-width to control the overall width of the carousel */
+  margin-top: 5rem; /* Add margin to avoid overlap with the fixed header */
+}
+
+.carousel {
+  flex: 1;
+  overflow: hidden; /* Hide overflow content */
+  position: relative;
 }
 
 .carouselContent {
   display: flex;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.1s;
 }
 
 .carouselItem {
@@ -53,7 +87,29 @@
 
 .carouselControls {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+.carouselArrow {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000; /* Ensure the arrows are above other content */
+}
+
+.carouselPrevious {
+  margin-right: 1rem; /* Adjust to position the arrow on the left side */
+}
+
+.carouselNext {
+  margin-left: 1rem; /* Adjust to position the arrow on the right side */
 }
