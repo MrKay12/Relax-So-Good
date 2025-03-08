@@ -1,5 +1,5 @@
-import AgeVerification from "@/components/AgeVerification";
+import HomePage from "@/components/home"
 
 export default function Home() {
-  return <AgeVerification />;
+  return <HomePage />
 }
