@@ -4,8 +4,9 @@ from database import Database
 from backend.models.user import User
 import flask_login
 from flask_login import UserMixin, login_user, LoginManager, logout_user as flask_logout_user, current_user
-from werkzeug.security import check_password_hash
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from flask import current_app
 
 api = Namespace('users', description='User operations')
 
@@ -13,8 +14,12 @@ user_model = api.model('User', {
     'first_name': fields.String(required=True, description='First name of the user'),
     'last_name': fields.String(required=True, description='Last name of the user'),
     'email': fields.String(required=True, description='Email of the user'),
-    'password': fields.String(required=True, description='Password of the user'),
-    'date_of_birth': fields.String(required=True, description='Date of birth of the user')
+    'password': fields.String(required=True, description='Password of the user')
+})
+
+login_model = api.model('Login', {
+    'email': fields.String(required=True, description='Email of the user'),
+    'password': fields.String(required=True, description='Password of the user')
 })
 
 # Initialize the database connection
@@ -23,17 +28,22 @@ user_collection = db.get_collection("User")
 
 @api.route('/')
 class Userlist(Resource):
-    @api.expect(user_model, validate=True)
+    # @api.expect(user_model, validate=True)
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new user"""
         user_data = api.payload
+        
+        print(user_data)
 
         # Check if the email is already registered
         existing_user = user_collection.find_one({"email": user_data['email']})
-        if existing_user:
+        
+        print(existing_user)
+        
+        if (existing_user):
             return {'error': 'Email already registered'}, 400
         
         # Hash the password before storing it
@@ -41,13 +51,11 @@ class Userlist(Resource):
 
         # Insert the new user
         inserted_doc = user_collection.insert_one(user_data)
-        new_user = user_collection.find_one({"_id": inserted_doc.inserted_id})
         return {
-            'id': str(new_user['_id']),
-            'first_name': new_user['first_name'],
-            'last_name': new_user['last_name'],
-            'email': new_user['email'],
-            'date_of_birth': new_user['date_of_birth']
+            'id': str(inserted_doc.inserted_id),
+            'first_name': user_data['firstName'],
+            'last_name': user_data['lastName'],
+            'email': user_data['email']
         }, 201
 
     @api.response(200, 'List of Users retrieved successfully')
@@ -59,10 +67,9 @@ class Userlist(Resource):
         return [
             {
                 'id': str(user['_id']),
-                'first_name': user['first_name'],
-                'last_name': user['last_name'],
-                'email': user['email'],
-                'date_of_birth': user['date_of_birth']
+                'first_name': user['firstName'],
+                'last_name': user['lastName'],
+                'email': user['email']
             } for user in users
         ], 200
 
@@ -78,10 +85,9 @@ class UserResource(Resource):
             return {'error': 'User not found'}, 404
         return {
             'id': str(user['_id']),
-            'first_name': user['first_name'],
-            'last_name': user['last_name'],
-            'email': user['email'],
-            'date_of_birth': user['date_of_birth']
+            'first_name': user['firstName'],
+            'last_name': user['lastName'],
+            'email': user['email']
         }, 200
 
     @api.expect(user_model, validate=True)
@@ -101,10 +107,9 @@ class UserResource(Resource):
             return {'error': 'User not found'}, 404
         return {
             'id': str(updated_user['_id']),
-            'first_name': updated_user['first_name'],
-            'last_name': updated_user['last_name'],
-            'email': updated_user['email'],
-            'date_of_birth': updated_user['date_of_birth']
+            'first_name': updated_user['firstName'],
+            'last_name': updated_user['lastName'],
+            'email': updated_user['email']
         }, 200
 
     @api.response(200, 'User successfully deleted')
@@ -121,10 +126,7 @@ class UserResource(Resource):
 
 @api.route('/login')
 class UserLogin(Resource): 
-    @api.expect(api.model('Login', {
-    'email': fields.String(required=True, description='Email of the user'),
-    'password': fields.String(required=True, description='Password of the user')
-    }), validate=True)
+    @api.expect(login_model, validate=True)
     @api.response(200, 'User successfully logged in')
     @api.response(401, 'Invalid email or password')
     def post(self):
@@ -132,17 +134,12 @@ class UserLogin(Resource):
         login_data = api.payload
         user_data = user_collection.find_one({"email": login_data['email']})
         
-        if user_data:
-            print(f"User found: {user_data}")
-        else:
-            print("User not found")
-        
         if user_data and check_password_hash(user_data['password'], login_data['password']):
             user_obj = User(user_data)
             login_user(user_obj)
+            
             return {'message': 'User successfully logged in'}, 200
         
-        print("Invalid email or password")
         return {'error': 'Invalid email or password'}, 401
 
 @api.route('/logout')
@@ -165,9 +162,8 @@ class CurrentUser(Resource):
         if current_user.is_authenticated:
             return {
                 'id': str(current_user.id),
-                'first_name': current_user.first_name,
-                'last_name': current_user.last_name,
-                'email': current_user.email,
-                'date_of_birth': current_user.date_of_birth
+                'firstName': current_user.firstName,
+                'lastName': current_user.lastName,
+                'email': current_user.email
              }, 200
         return {'error': 'User not logged in'}, 401

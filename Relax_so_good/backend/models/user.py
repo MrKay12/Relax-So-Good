@@ -10,7 +10,6 @@ class User(UserMixin):
         self.last_name = user_data.get('last_name')
         self.email = user_data.get('email')
         self.password = user_data.get('password')
-        self.date_of_birth = user_data.get('date_of_birth')
         self.is_admin = user_data.get('is_admin', False)
         self.validate()
 
@@ -24,5 +23,3 @@ class User(UserMixin):
             raise ValueError("Invalid email format.")
         if not self.password:
             raise ValueError("Password is required.")
-        if not self.date_of_birth:
-            raise ValueError("Date of birth is required.")

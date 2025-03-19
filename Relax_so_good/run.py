@@ -2,6 +2,8 @@ from backend import create_app
 from database import Database
 from flask_login import LoginManager
 from backend.models.user import User
+from flask_cors import CORS  # Import Flask-CORS
+from flask import Flask, request, jsonify
 import os
 from bson.objectid import ObjectId
 
@@ -17,6 +19,9 @@ user_collection = db.get_collection("User")
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+# Enable CORS
+CORS(app, resources={r"/*": {"origins": "http://localhost:8000/Relax_so_good/frontend2/pages/"}})
 
 @app.after_request
 def after_request(response):
