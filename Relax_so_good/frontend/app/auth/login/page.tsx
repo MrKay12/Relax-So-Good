@@ -48,14 +48,35 @@ export default function LoginPage() {
     setFormData((prev) => ({ ...prev, rememberMe: checked }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, this would authenticate the user
-    console.log("Login attempt with:", formData)
+    setLoading(true)
 
-    // Simulate successful login and redirect
-    localStorage.setItem("user-logged-in", "true")
-    router.push("/")
+    try {
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error("Login failed")
+      }
+
+      const data = await response.json()
+      console.log("Login successful:", data)
+
+      // Simulate successful login and redirect
+      localStorage.setItem("user-logged-in", "true")
+      router.push("/")
+    } catch (error) {
+      console.error("Error during login:", error)
+      // Handle error (e.g., show error message to user)
+    } finally {
+      setLoading(false)
+    }
   }
 
   // Show nothing during initial load to prevent flash of content

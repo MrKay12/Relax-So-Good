@@ -8,6 +8,7 @@ import Footer from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ShoppingCart, Heart, Gift, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 // Sample product data
 const featuredProducts = [
@@ -15,16 +16,16 @@ const featuredProducts = [
     id: 1,
     name: "CBD Flower Premium",
     price: 29.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/cbd1.png",
     category: "CBD",
     isNew: true,
     isBestseller: false,
   },
   {
     id: 2,
-    name: "CBD Oil 10%",
+    name: "CBD Oil 5%",
     price: 49.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/huilde.png",
     category: "CBD",
     isNew: false,
     isBestseller: true,
@@ -33,16 +34,16 @@ const featuredProducts = [
     id: 3,
     name: "Grinder Metal Premium",
     price: 24.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/grinder.png",
     category: "Accessoires",
     isNew: false,
     isBestseller: false,
   },
   {
     id: 4,
-    name: "T-Shirt Relax So Good",
+    name: "T-Shirt hemp",
     price: 34.99,
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/shirt.png",
     category: "Vêtements",
     isNew: true,
     isBestseller: false,
@@ -53,19 +54,19 @@ const categories = [
   {
     id: 1,
     name: "Fleurs CBD",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/cbd2.png",
     url: "/cbd/fleurs",
   },
   {
     id: 2,
     name: "Huiles CBD",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/huile2.png",
     url: "/cbd/huiles",
   },
   {
     id: 3,
     name: "Accessoires",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/thermos.png",
     url: "/accessoires",
   },
 ]
@@ -115,14 +116,17 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         {/* Hero Banner */}
-        <div className="relative h-[70vh] bg-black">
+        <div
+          className="relative h-[70vh] bg-cover bg-center"
+          style={{ backgroundImage: "url('/shop-inter.jpg')" }}
+        >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center text-white p-8 max-w-3xl">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">RELAX SO GOOD</h1>
               <p className="text-xl mb-8">Découvrez notre sélection de produits CBD premium</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button className="bg-white text-black hover:bg-gray-200 px-8 py-6 text-lg">Découvrir</Button>
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg">
+                <Button className="bg-white text-black hover:bg-gray-200 px-8 py-6 text-lg">
                   Nouveautés
                 </Button>
               </div>
@@ -138,6 +142,12 @@ export default function Home() {
               {categories.map((category) => (
                 <Link key={category.id} href={category.url}>
                   <div className="relative h-80 rounded-lg overflow-hidden group cursor-pointer">
+                    <Image
+                      src={category.image}
+                      alt={category.name}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                       <h3 className="text-white text-2xl font-bold">{category.name}</h3>
                     </div>
@@ -159,6 +169,12 @@ export default function Home() {
               {featuredProducts.map((product) => (
                 <Card key={product.id} className="overflow-hidden group">
                   <div className="relative pt-[100%]">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      layout="fill"
+                      objectFit="cover"
+                    />
                     <div className="absolute top-2 right-2">
                       <Button
                         variant="ghost"

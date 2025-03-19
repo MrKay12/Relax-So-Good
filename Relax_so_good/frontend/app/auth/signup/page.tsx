@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -52,22 +51,48 @@ export default function SignupPage() {
     setFormData((prev) => ({ ...prev, [name]: checked }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const registerUser = async (userData: typeof formData) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Ajoutez cet en-tête pour permettre les requêtes CORS
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw Error("Failed to register user");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error registering user:", error);
+      throw error;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     // Basic validation
     if (formData.password !== formData.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas")
-      return
+      alert("Les mots de passe ne correspondent pas");
+      return;
     }
 
-    // In a real app, this would register the user
-    console.log("Registration with:", formData)
-
-    // Simulate successful registration and redirect
-    localStorage.setItem("user-logged-in", "true")
-    router.push("/")
-  }
+    try {
+      // Register the user
+      const data = await registerUser(formData);
+      console.log("User registered successfully:", data);
+      // Redirect to another page or show success message
+      router.push("/success");
+    } catch (error) {
+      alert("Failed to register user. Please try again.");
+    }
+  };
 
   // Show nothing during initial load to prevent flash of content
   if (loading) {
